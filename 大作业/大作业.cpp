@@ -80,13 +80,19 @@ void keyDown()
 		break;
 			
 	case 2:printf("**-----------浏览信息-----------**\n");
+		
+			
 		printkinklist(list);
 		break;
 	case 3:printf("**-----------修改信息-----------**\n");
-
+		
 		break;
 	case 4:printf("**-----------删除信息-----------**\n");
-
+		printf("请输入要删除的学生姓名\n");
+		char tmp[20];
+		scanf("%s",tmp); 
+		deletelinknode(list,tmp);
+		printf("删除成功！\n");	
 		break;
 	case 5:printf("**-----------查找信息-----------**\n");
 
@@ -121,6 +127,9 @@ void printkinklist(linknode*p)
 {
 	linknode* pMove=p->next;
 	printf("姓名\t学号\t性别\t电话\n");
+	if(pMove==NULL)
+	return; 
+	
 	while (1)
 	{
 		if (pMove->next != NULL)
