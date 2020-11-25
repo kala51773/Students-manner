@@ -1,18 +1,16 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 
-typedef struct student
+ struct student
 {
 	char name[20];
 	int id;
 	char sex[10];
 	char tel[20];
 };
-typedef struct linknode {
+ struct linknode {
 	 student date;
 	linknode* next;
 
@@ -28,6 +26,8 @@ linknode* ncreatlist();//创建链表
 linknode* creatnode(student date);//创建链表节点
 linknode* seachdatenode(linknode* p, char *name);
 linknode* list;
+void read(linknode*head,char *file);//读取操作
+void write(linknode*head,char *file);
 /*主函数开始*/
 
 
@@ -35,12 +35,13 @@ int main()
 {
 	list = ncreatlist();
 	list->next = NULL;
-
+    char a[20]="ass.txt";
+    read(list,a);
 	while (1)
 	{
 		menu();
 		keyDown();
- 
+        write(list,a);
 		getchar();
 		
 	}
@@ -49,6 +50,42 @@ int main()
 
 
 /*主函数结束*/
+/*读写操作函数*/
+
+void read(linknode*head,char *file)
+{
+    //打开
+    FILE *fp;
+    student date;
+    fp=fopen(file,"r");
+	
+    if(fp==NULL);
+      {
+		  
+		   fp=fopen(file,"w+");//不存在文件就创建文件
+	  printf("不存在文件");
+} 
+    //读文件
+    while(fscanf(fp,"%s\t%d\t%s\t%s\n",date.name,date.id,date.sex,date.tel)!=EOF)
+    {
+        insectlinklist(head,date);
+    }
+    //关闭文件
+    fclose(fp);
+}
+void write(linknode*head,char *file)
+{
+    FILE *fp;
+    fp=fopen(file,"w");
+    linknode *current=head->next;
+    while(current)
+    {
+        fprintf(fp,"%s\t%d\t%s\t%s\n",current->date.name,current->date.id,current->date.sex,current->date.tel);
+   current=current->next;
+     }
+	 fclose(fp);
+}
+
 void menu()
 {
 	printf("***********************************\n");
