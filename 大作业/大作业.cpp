@@ -3,15 +3,15 @@
 #include <string.h>
 
 
- struct student
+struct student
 {
 	char name[20];
 	int id;
 	char sex[10];
 	char tel[20];
 };
- struct linknode {
-	 student date;
+struct linknode {
+	student date;
 	linknode* next;
 
 };
@@ -21,13 +21,13 @@ void menu();//打印交互菜单
 void keyDown();//实现交互
 void printkinklist(linknode* p);//打印整个链表
 void insectlinklist(linknode* head, student date);//头插法插入
-void deletelinknode(linknode* p, char *name);
+void deletelinknode(linknode* p, char* name);
 linknode* ncreatlist();//创建链表
 linknode* creatnode(student date);//创建链表节点
-linknode* seachdatenode(linknode* p, char *name);
+linknode* seachdatenode(linknode* p, char* name);
 linknode* list;
-void read(linknode*head,char *file);//读取操作
-void write(linknode*head,char *file);
+void read(linknode* head, char* file);//读取操作
+void write(linknode* head, char* file);
 /*主函数开始*/
 
 
@@ -35,15 +35,15 @@ int main()
 {
 	list = ncreatlist();
 	list->next = NULL;
-    char a[20]="ass.txt";
-    read(list,a);
+	char a[20] = "ass.txt";
+	read(list, a);
 	while (1)
 	{
 		menu();
 		keyDown();
-        write(list,a);
+		write(list, a);
 		getchar();
-		
+
 	}
 	return 0;
 }
@@ -52,38 +52,38 @@ int main()
 /*主函数结束*/
 /*读写操作函数*/
 
-void read(linknode*head,char *file)
+void read(linknode* head, char* file)
 {
-    //打开
-    FILE *fp;
-    student date;
-    fp=fopen(file,"r");
-	
-    if(fp==NULL);
-      {
-		  
-		   fp=fopen(file,"w+");//不存在文件就创建文件
-	  printf("不存在文件");
-} 
-    //读文件
-    while(fscanf(fp,"%s\t%d\t%s\t%s\n",date.name,date.id,date.sex,date.tel)!=EOF)
-    {
-        insectlinklist(head,date);
-    }
-    //关闭文件
-    fclose(fp);
+	//打开
+	FILE* fp;
+	student date;
+	fp = fopen(file, "r");
+
+	if (fp == NULL)
+	{
+
+		fp = fopen(file, "w+");//不存在文件就创建文件
+		printf("不存在文件");
+	}
+	//读文件
+	while (fscanf(fp, "%s\t%d\t%s\t%s\n", &date.name, &date.id, &date.sex, &date.tel) != EOF)
+	{
+		insectlinklist(head, date);
+	}
+	//关闭文件
+	fclose(fp);
 }
-void write(linknode*head,char *file)
+void write(linknode* head, char* file)
 {
-    FILE *fp;
-    fp=fopen(file,"w");
-    linknode *current=head->next;
-    while(current)
-    {
-        fprintf(fp,"%s\t%d\t%s\t%s\n",current->date.name,current->date.id,current->date.sex,current->date.tel);
-   current=current->next;
-     }
-	 fclose(fp);
+	FILE* fp;
+	fp = fopen(file, "w");
+	linknode* current = head->next;
+	while (current)
+	{
+		fprintf(fp, "%s\t%d\t%s\t%s\n", current->date.name, current->date.id, current->date.sex, current->date.tel);
+		current = current->next;
+	}
+	fclose(fp);
 }
 
 void menu()
@@ -109,14 +109,14 @@ void keyDown()
 	student date;
 	switch (x)
 	{
-	case 1:printf("**-----------录入信息-----------**\n");				
-		printf("请输入学生姓名、学号、性别、电话\n");	
+	case 1:printf("**-----------录入信息-----------**\n");
+		printf("请输入学生姓名、学号、性别、电话\n");
 		fflush(stdin);//清空缓存区 
 		scanf("%s %d %s %s", date.name, &date.id, date.sex, date.tel);
 		insectlinklist(list, date);
 		printf("录入成功\n");
 		break;
-			
+
 	case 2:printf("**-----------浏览信息-----------**\n");
 		system("cls");
 		printkinklist(list);
@@ -125,42 +125,42 @@ void keyDown()
 	case 3:printf("**-----------修改信息-----------**\n");
 		char ch[20];
 		printf("请输入人员姓名\n");
-		scanf("%s",ch);
-		linknode *tmpx;
-		tmpx=seachdatenode(list,ch);
-		if(tmpx!=NULL)
+		scanf("%s", ch);
+		linknode* tmpx;
+		tmpx = seachdatenode(list, ch);
+		if (tmpx != NULL)
 		{
 			printf("该人员信息：\n姓名\t学号\t性别\t电话\n");
-		printf("%s\t%d\t%s\t%s\t\n", tmpx->date.name, tmpx->date.id, tmpx->date.sex, tmpx->date.tel);
-	
-		printf("请输入修改后信息\n");
-			scanf("%s %d %s %s", tmpx->date.name, &tmpx->date.id, tmpx->date.sex, tmpx->date.tel);	
-				}
-	else 
-		printf("查无此人\n");
+			printf("%s\t%d\t%s\t%s\t\n", tmpx->date.name, tmpx->date.id, tmpx->date.sex, tmpx->date.tel);
+
+			printf("请输入修改后信息\n");
+			scanf("%s %d %s %s", tmpx->date.name, &tmpx->date.id, tmpx->date.sex, tmpx->date.tel);
+		}
+		else
+			printf("查无此人\n");
 		break;
 
-	
+
 		break;
 	case 4:printf("**-----------删除信息-----------**\n");
 		printf("请输入要删除的学生姓名\n");
 		char tmp[20];
-		scanf("%s",tmp); 
-		deletelinknode(list,tmp);
-		
+		scanf("%s", tmp);
+		deletelinknode(list, tmp);
+
 		break;
 	case 5:printf("**-----------查找信息-----------**\n");
 		char tmp1[20];
-		scanf("%s",tmp1);
-		linknode *tmp2;
-		tmp2=seachdatenode(list,tmp1);
-		if(tmp2!=NULL)
+		scanf("%s", tmp1);
+		linknode* tmp2;
+		tmp2 = seachdatenode(list, tmp1);
+		if (tmp2 != NULL)
 		{
 			printf("姓名\t学号\t性别\t电话\n");
-		printf("%s\t%d\t%s\t%s\t\n", tmp2->date.name, tmp2->date.id, tmp2->date.sex, tmp2->date.tel);
-		}	
-	else 
-		printf("查无此人\n");
+			printf("%s\t%d\t%s\t%s\t\n", tmp2->date.name, tmp2->date.id, tmp2->date.sex, tmp2->date.tel);
+		}
+		else
+			printf("查无此人\n");
 		break;
 	case 6:printf("**-----------查找信息-----------**\n");
 		printf("欢迎下次使用");
@@ -188,18 +188,18 @@ linknode* creatnode(student date)
 
 }
 
-void printkinklist(linknode*p)
+void printkinklist(linknode* p)
 {
-	
-	linknode* pMove=p->next;
+
+	linknode* pMove = p->next;
 	printf("姓名\t学号\t性别\t电话\n");
-	if(pMove==NULL)
-	return; 
+	if (pMove == NULL)
+		return;
 	while (1)
 	{
 		if (pMove->next != NULL)
 		{
-			printf("%s\t %d\t %s\t %s\n", pMove->date.name,pMove->date.id,pMove->date.sex,pMove->date.tel);
+			printf("%s\t %d\t %s\t %s\n", pMove->date.name, pMove->date.id, pMove->date.sex, pMove->date.tel);
 			pMove = pMove->next;
 		}
 		else
@@ -208,7 +208,7 @@ void printkinklist(linknode*p)
 			break;
 		}
 	}
-	
+
 }
 
 void insectlinklist(linknode* head, student date)
@@ -219,16 +219,17 @@ void insectlinklist(linknode* head, student date)
 
 }
 
-void deletelinknode(linknode* p, char *name)
+void deletelinknode(linknode* p, char* name)
 {
-	linknode* pre=p;
+	linknode* pre = p;
 	linknode* current = p->next;
 	if (current == NULL)
-	{printf("该节点为尾节点\n");
-	return ;
+	{
+		printf("该节点为尾节点\n");
+		return;
 	}
-		
-	while (strcmp(current->date.name,name))
+
+	while (strcmp(current->date.name, name))
 	{
 		current = current->next;
 		pre = pre->next;
@@ -248,7 +249,7 @@ linknode* seachdatenode(linknode* p, char* name)
 	linknode* current = p->next;
 	if (current == NULL)
 		return NULL;
-	while (current != NULL && strcmp(current->date.name,name))
+	while (current != NULL && strcmp(current->date.name, name))
 	{
 		current = current->next;
 	}
